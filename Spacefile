@@ -1,0 +1,9 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+  - name: fastpush
+    src: ./
+    engine: python3.9
+    primary: true
+    run: uvicorn main:app
+    dev: .venv/bin/uvicorn main:app --reload
