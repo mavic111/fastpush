@@ -34,7 +34,7 @@ app = FastAPI(
 
 security = HTTPBasic()
 
-origins = [os.getenv("LOCALHOST", "http://localhost:3000")]
+origins = [os.getenv("HOST", "")]
 
 app.add_middleware(
     CORSMiddleware,

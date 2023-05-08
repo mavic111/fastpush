@@ -164,7 +164,3 @@ cython_debug/
 
 # SQLite db
 database.db
-
-# Deta space file
-.space
-.detaignore
