@@ -1,10 +1,11 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlmodel import Session, select
-from pywebpush import webpush, WebPushException
-from db import get_session
-import os
 from models import PushSubscription, PushContent, PushContentCreate, PushContentRead
+from db import get_session
+from pywebpush import webpush, WebPushException
 from pydantic import ValidationError
+import os
+
 
 router = APIRouter()
 
@@ -35,7 +36,7 @@ def push_notification(subscription: PushSubscription, data: PushContentCreate):
         return False
 
 
-@router.post("/", status_code=202, response_model=PushContentRead)
+@router.post("/broadcast", status_code=202, response_model=PushContentRead)
 async def broadcast(
     *,
     db: Session = Depends(get_session),

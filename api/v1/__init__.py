@@ -1,1 +1,1 @@
-from . import api_v1
+from .router import v1_router
