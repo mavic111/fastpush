@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
-import json
+from sqlmodel import Session, select
 from sqlalchemy.exc import IntegrityError, NoResultFound
 from pydantic import ValidationError
-from sqlmodel import Session, select
 from db import get_session
 from models import (
     PushSubscriptionOriginal,
@@ -11,10 +10,12 @@ from models import (
     PushSubscriptionRead,
 )
 
+import json
+
 router = APIRouter()
 
 
-@router.post("/", response_model=PushSubscriptionRead, status_code=201)
+@router.post("/subscription", response_model=PushSubscriptionRead, status_code=201)
 async def create_subscription(
     *,
     db: Session = Depends(get_session),
@@ -45,7 +46,7 @@ async def create_subscription(
         return exist_db_subscription
 
 
-@router.delete("/", status_code=204)
+@router.delete("/subscription", status_code=204)
 async def delete_subscription(
     *, db: Session = Depends(get_session), subscription: dict
 ):

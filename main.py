@@ -1,13 +1,11 @@
+from dotenv.main import load_dotenv
+
+load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import HTTPBasic
-from dotenv.main import load_dotenv
-from sqlmodel import SQLModel
-from api.v1 import api_v1
-from db import engine
+from api.v1 import v1_router
+from db import create_db_and_tables
 import os
-
-
 
 description = """
 FastPush for faster push notifications. 🚀
@@ -32,8 +30,6 @@ app = FastAPI(
     docs_url="/api/docs",
 )
 
-security = HTTPBasic()
-
 origins = [os.getenv("HOST", "")]
 
 app.add_middleware(
@@ -45,19 +41,15 @@ app.add_middleware(
 )
 
 
-def create_db_and_tables():
-    load_dotenv()
-    SQLModel.metadata.create_all(engine)
-
-
 @app.on_event("startup")
 def on_startup():
+    print("ayeee")
     create_db_and_tables()
 
 
 @app.get("/")
 async def root():
-    return {"message": "FastPush"}
+    return {"message": "FastPush", "docs": "api/docs"}
 
 
-app.include_router(api_v1.router, prefix="/api/v1")
+app.include_router(v1_router, prefix="/api/v1")
