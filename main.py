@@ -1,12 +1,9 @@
-from dotenv.main import load_dotenv
-
-load_dotenv()
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.v1 import v1_router
+from config import settings
 from db import create_db_and_tables
-import os
+from api.v1 import v1_router
+
 
 description = """
 FastPush for faster push notifications. 🚀
@@ -31,7 +28,9 @@ app = FastAPI(
     docs_url="/api/docs",
 )
 
-origins = [os.getenv("HOST", "")]
+
+origins = [settings.CORS_HOSTNAME]
+
 
 app.add_middleware(
     CORSMiddleware,
