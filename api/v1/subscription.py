@@ -60,14 +60,14 @@ async def delete_subscription(
             PushSubscription.endpoint == query_subscription.endpoint
         )
         results = db.exec(statement)
-        subscription = results.one()
-        db.delete(subscription)
+        db_subscription = results.one()
+        db.delete(db_subscription)
         db.commit()
         # Double check
-        results = db.exec(statement)
-        subscription = results.first()
-        if subscription is not None:
-            db.delete(subscription)
+        # results = db.exec(statement)
+        # subscription = results.first()
+        # if subscription is not None:
+        #    db.delete(subscription)
         return None
     except ValidationError:
         raise HTTPException(status_code=400, detail="ValidationError")
