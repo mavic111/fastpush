@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 from sqlmodel import SQLModel, Field
 from sqlalchemy import types
@@ -18,7 +19,7 @@ class PushSubscriptionOriginal(SQLModel):
 class PushSubscriptionBase(SQLModel):
     endpoint: str
     expirationTime: Optional[int] = None
-    keys: str = Field(..., sa_column=types.NVARCHAR(length=500))
+    keys: str
 
 
 class PushSubscriptionCreate(PushSubscriptionBase):
@@ -27,12 +28,13 @@ class PushSubscriptionCreate(PushSubscriptionBase):
 
 class PushSubscriptionRead(PushSubscriptionBase):
     id: int
+    created_at: datetime
 
 
 class PushSubscriptionUpdate(SQLModel):
     endpoint: Optional[str] = None
     expirationTime: Optional[int] = None
-    keys: Optional[str] = Field(None, sa_column=types.NVARCHAR(length=500))
+    keys: Optional[str] = None
 
 
 class PushSubscription(SQLModel, table=True):
@@ -40,6 +42,7 @@ class PushSubscription(SQLModel, table=True):
     endpoint: str = Field(unique=True)
     expirationTime: Optional[int] = None
     keys: str = Field(sa_column=types.NVARCHAR(length=500))
+    created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
 
     @property
     def keys_dict(self):
