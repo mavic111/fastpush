@@ -1,22 +1,14 @@
 {
     "builds": [
       {
-        "src": "main.py",
+        "src": "api/index.py",
         "use": "@vercel/python"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "main.py"
+        "dest": "api/index.py"
       }
-    ],
-    "env": {
-      "UVICORN_WORKERS": "1",
-      "UVICORN_PORT": "$PORT",
-      "WEB_CONCURRENCY": "1"
-    },
-    "commands": {
-      "start": "uvicorn main:app --host 0.0.0.0 --port $PORT"
-    }
+    ]
   }
