@@ -44,6 +44,7 @@ app.add_middleware(
 
 @app.on_event("startup")
 def on_startup():
+    print("Startup event handler called")
     create_db_and_tables()
 
 
