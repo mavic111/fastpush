@@ -5,6 +5,7 @@ from sqlmodel import SQLModel, Field
 class PushContentBase(SQLModel):
     title: str
     message: str
+    url: Optional[str] = "/"
 
 
 class PushContent(PushContentBase, table=True):

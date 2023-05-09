@@ -1,6 +1,7 @@
 from dotenv.main import load_dotenv
 
 load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.v1 import v1_router
@@ -43,7 +44,6 @@ app.add_middleware(
 
 @app.on_event("startup")
 def on_startup():
-    print("ayeee")
     create_db_and_tables()
 
 
