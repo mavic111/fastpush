@@ -36,7 +36,7 @@ async def create_subscription(
         return db_subscription
     except ValidationError:
         raise HTTPException(status_code=422, detail="ValidationError")
-    except IntegrityError as e:
+    except IntegrityError:
         db.rollback()
         statement = select(PushSubscription).where(
             PushSubscription.endpoint == db_subscription.endpoint
