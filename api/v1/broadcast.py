@@ -1,6 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlmodel import Session, select
 from sqlalchemy.exc import NoResultFound
+from config import settings
 from models import (
     PushSubscription,
     PushSubscriptionOriginal,
@@ -11,7 +12,6 @@ from models import (
 from db import get_session
 from pywebpush import webpush, WebPushException
 from pydantic import ValidationError
-import os
 
 
 router = APIRouter()
@@ -30,8 +30,8 @@ def push_notification(
         webpush(
             subscription_info=subscription_push.dict(),
             data=data.json(),
-            vapid_private_key=os.getenv("VAPID_PRIVATE_KEY", ""),
-            vapid_claims={"sub": "mailto:" + os.getenv("EMAIL_ADDRESS", "")},
+            vapid_private_key=settings.VAPID_PRIVATE_KEY,
+            vapid_claims={"sub": "mailto:" + settings.EMAIL_ADDRESS},
         )
         return True
     except WebPushException as ex:
