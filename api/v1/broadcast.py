@@ -12,7 +12,7 @@ from models import (
 from db import get_session
 from pywebpush import webpush, WebPushException
 from pydantic import ValidationError
-
+from client import client
 
 router = APIRouter()
 
@@ -20,7 +20,7 @@ router = APIRouter()
 def push_notification(
     subscription: PushSubscription, data: PushContentCreate, db: Session
 ):
-    try:        
+    try:
         subscription_push = PushSubscriptionOriginal(
             endpoint=subscription.endpoint,
             expirationTime=subscription.expirationTime,
@@ -69,6 +69,17 @@ async def broadcast(
         results = db.exec(statement)
         for subscription in results:
             background_tasks.add_task(push_notification, subscription, push_content, db)
+        try:
+            print("Revalidating frontend notifications page")
+            res = await client.get(
+                settings.CORS_HOSTNAME + "/api/revalidate",
+                params={"tag": "notifications"},
+                headers={"content-type": "application/json"},
+            )
+            print(res.url)
+            print(res.status_code)
+        except:
+            pass
         return db_push_content
     except ValidationError:
         raise HTTPException(status_code=422, detail="ValidationError")
