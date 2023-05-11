@@ -1,8 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from config import settings
 from db import create_db_and_tables
 from api.v1 import v1_router
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
 
 
 description = """
@@ -13,6 +20,7 @@ Supports Push API for Progressive Web App
 """
 
 app = FastAPI(
+    lifespan=lifespan,
     title="FastPush",
     description=description,
     version="1.0",
@@ -39,12 +47,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-def on_startup():
-    print("Startup event handler called")
-    create_db_and_tables()
 
 
 @app.get("/")
