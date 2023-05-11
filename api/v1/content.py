@@ -53,7 +53,7 @@ async def read_today_contents(
     limit: int = Query(default=10, le=100),
     sort: Literal["asc", "desc"] = "asc",
 ):
-    today = datetime.utcnow()
+    today = date.today()
     start_of_day = datetime.combine(today, datetime.min.time())
     end_of_day = datetime.combine(today, datetime.max.time())
     statement = (
@@ -88,7 +88,7 @@ async def read_this_week_contents(
         .where(PushContent.created_at <= end_of_week_datetime)
         .offset(offset)
         .limit(limit)
-        .order_by(desc(PushContent.id) if sort == "desc" else None)
+        .order_by(desc(PushContent.created_at) if sort == "desc" else None)
     )
     results = db.exec(statement)
     db_contents = results.fetchall()
@@ -114,7 +114,7 @@ async def read_this_month_contents(
         .where(PushContent.created_at <= end_of_month_datetime)
         .offset(offset)
         .limit(limit)
-        .order_by(desc(PushContent.id) if sort == "desc" else None)
+        .order_by(desc(PushContent.created_at) if sort == "desc" else None)
     )
     results = db.exec(statement)
     db_contents = results.fetchall()

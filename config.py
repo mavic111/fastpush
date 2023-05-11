@@ -1,5 +1,6 @@
 from pydantic import BaseSettings
 
+
 class Settings(BaseSettings):
     VAPID_PRIVATE_KEY: str
     EMAIL_ADDRESS: str
@@ -11,6 +12,7 @@ class Settings(BaseSettings):
     CORS_HOSTNAME: str
 
     class Config:
-        env_file = './.env'
+        env_file = "./.env"
+
 
 settings = Settings()
