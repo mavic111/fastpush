@@ -3,8 +3,8 @@ from typing import Literal
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import ValidationError
 from sqlmodel import Session, select, desc
-from db import get_session
-from models import PushContent, PushContentRead, PushContentCreate
+from ...db import get_session
+from ...models import PushContent, PushContentRead, PushContentCreate
 
 
 router = APIRouter()

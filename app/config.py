@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     CORS_HOSTNAME: str
 
     class Config:
-        env_file = "./.env"
+        env_file = "./app/.env"
 
 
 settings = Settings()
