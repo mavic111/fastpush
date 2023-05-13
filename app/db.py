@@ -1,5 +1,5 @@
 from sqlmodel import Session, create_engine, SQLModel
-from config import settings
+from .config import settings
 
 POSTGRES_URL = f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOSTNAME}:{settings.DATABASE_PORT}/{settings.POSTGRES_DB}"
 

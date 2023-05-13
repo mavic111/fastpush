@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlmodel import Session, select
 from sqlalchemy.exc import IntegrityError, NoResultFound
 from pydantic import ValidationError
-from db import get_session
-from models import (
+from ...db import get_session
+from ...models import (
     PushSubscriptionOriginal,
     PushSubscription,
     PushSubscriptionCreate,
