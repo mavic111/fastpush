@@ -39,12 +39,11 @@ app = FastAPI(
 )
 
 
-origins = [settings.CORS_HOSTNAME]
-
+regex_origins = settings.REGEX_ORIGINS
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origin_regex=regex_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
