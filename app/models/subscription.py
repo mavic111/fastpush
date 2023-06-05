@@ -33,7 +33,7 @@ class SubscriptionUpdate(SQLModel):
 class Subscription(SQLModel, table=True):
     __tablename__ = "subscriptions"
     id: Optional[int] = Field(default=None, primary_key=True)
-    endpoint: str = Field(nullable=False, unique=True)
+    endpoint: str = Field(nullable=False)
     expiration_time: Optional[int] = Field(default=None)
     keys: KeysField = Field(sa_column=Column(JSON), nullable=False)
     created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
