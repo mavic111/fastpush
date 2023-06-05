@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+
+from pydantic import BaseModel
 from .config import settings
-from .api.v1 import v1_router
 from .db import create_db_and_tables
+from .router import router
 
 
 @asynccontextmanager
@@ -23,7 +25,7 @@ app = FastAPI(
     lifespan=lifespan,
     title="FastPush",
     description=description,
-    version="1.0",
+    version="1.1",
     contact={
         "name": "Muhammad Nizamuddin Aulia",
         "url": "https://github.com/mavic111",
@@ -37,21 +39,25 @@ app = FastAPI(
 )
 
 
-origins = [settings.CORS_HOSTNAME]
-
+regex_origins = settings.REGEX_ORIGINS
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origin_regex=regex_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-@app.get("/")
+class Metadata(BaseModel):
+    name: str
+    docs: str
+
+
+@app.get("/", response_model=Metadata)
 async def root():
-    return {"message": "FastPush", "docs": "api/docs"}
+    return {"name": "FastPush", "docs": "api/docs"}
 
 
-app.include_router(v1_router, prefix="/api/v1")
+app.include_router(router, prefix="/api")

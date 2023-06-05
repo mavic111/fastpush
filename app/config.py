@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_DB: str
     POSTGRES_HOSTNAME: str
-    CORS_HOSTNAME: str
+    REGEX_ORIGINS: str
 
     class Config:
         env_file = "./app/.env"
