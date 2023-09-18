@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from contextlib import asynccontextmanager
 
 from pydantic import BaseModel
@@ -57,7 +58,7 @@ class Metadata(BaseModel):
 
 @app.get("/", response_model=Metadata)
 async def root():
-    return {"name": "FastPush", "docs": "api/docs"}
+    return RedirectResponse("/api/docs")
 
 
 app.include_router(router, prefix="/api")

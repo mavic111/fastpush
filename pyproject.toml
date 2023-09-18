@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "fastpush"
+version = "1.0"
+description = "FastPush for faster push notifications"
+authors = ["Muhammad Nizamuddin Aulia <muhammadnizamuddinaulia@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "0.96.0"
+python-dotenv = "^1.0.0"
+pywebpush = "1.14.0"
+sqlmodel = "0.0.8"
+uvicorn = "^0.23.2"
+psycopg2-binary = "^2.9.7"
+email-validator = "^2.0.0.post2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
